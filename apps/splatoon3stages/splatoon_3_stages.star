@@ -139,7 +139,7 @@ def parseJSONResponse(resp):
         x = [parseMatch(match, "xMatchSetting") for match in resp["data"]["xSchedules"]["nodes"]],
         fest = [parseMatch(match, "festMatchSettings") for match in resp["data"]["festSchedules"]["nodes"]],
         salmon = [parseSalmonRunMatch(match) for match in resp["data"]["coopGroupingSchedule"]["regularSchedules"]["nodes"]],
-        eggstra = [parseSalmonRunMatch(match) for match in resp["data"]["coopGroupingSchedule"]["teamContestSchedules"]["nodes"]]
+        eggstra = [parseSalmonRunMatch(match) for match in resp["data"]["coopGroupingSchedule"]["teamContestSchedules"]["nodes"]],
     )
 
 def getCurrentMatch(matches, now):
@@ -395,7 +395,7 @@ def main(config):
             )
 
     eggstra_on = False
-    if(len(stages["data"]["coopGroupingSchedule"]["teamContestSchedules"]["nodes"]) > 0): # TODO: See if there's a better way to detect this
+    if (len(stages["data"]["coopGroupingSchedule"]["teamContestSchedules"]["nodes"]) > 0):  # TODO: See if there's a better way to detect this
         eggstra_on = True
 
     frames = {
@@ -407,9 +407,9 @@ def main(config):
     }
     if (eggstra_on):
         current_match = getCurrentMatch(parsed_data.eggstra, now)
-        if(current_match):
+        if (current_match):
             frames["eggstra"] = generateFrame(current_match.setting, "eggstra", time.parse_time(current_match.end_time) - now)
-    
+
     if (splatfest):
         frames["festopen"] = generateFrame(getCurrentMatch(parsed_data.fest, now).open_setting, "festopen", splatfest_colours)
         frames["festpro"] = generateFrame(getCurrentMatch(parsed_data.fest, now).series_setting, "festpro", splatfest_colours)
